@@ -1,17 +1,84 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+
+
+
+const scaleNames = {
+	c: 'Celsius',
+	f: 'Fahrenheit'
+}
+
+function BoilingVeredict(props) {
+	if (props.celsius >= 100) {
+		return <p>The water would boil.</p>;
+	}
+	return <p>The water would not boil</p>;
+}
+
+class TemperatureInput extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {temperature: ''}
+		this.handleChange = this.handleChange.bind(this);
+
+	}
+
+	handleChange(e) {
+		this.setState({temperature: e.target.value})
+
+	}
+
+	render() {
+		const temperature = this.state.temperature;
+		const scale = this.props.scale;
+
+		return (
+			<fieldset>
+			<legend>Enter temperature in {scaleNames[scale]}</legend>
+			<input
+			type="number"
+			value={temperature}
+			onChange={this.handleChange}
+			/>
+			</fieldset>
+		)
+
+
+	}
+
+
+}
+
+class Calculator extends React.Component {
+	constructor(props) {
+		super(props)
+		// this.state = {temperature: 20};
+		// this.handleInputChange = this.handleInputChange.bind(this);
+
+	}
+
+
+
+	render() {
+		// const temperature = this.state.temperature;
+
+		return (
+			<div>
+				<TemperatureInput scale={'c'}/>
+				<TemperatureInput scale={'f'}/>
+				{/* <input
+					type="number"
+					value={temperature}
+					onChange={this.handleInputChange}
+					/> */}
+				{/* <BoilingVeredict celsius={parseFloat(temperature)}/> */}
+			</div>
+		)
+	}
+}
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+	<Calculator/>,
+	document.getElementById('root')
+)
